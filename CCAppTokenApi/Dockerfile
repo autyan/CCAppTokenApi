@@ -6,10 +6,9 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["CCAppTokenApi/CCAppTokenApi.csproj", "CCAppTokenApi/"]
-RUN dotnet restore "CCAppTokenApi/CCAppTokenApi.csproj"
+COPY ["CCAppTokenApi.csproj", "./"]
+RUN dotnet restore "CCAppTokenApi.csproj"
 COPY . .
-WORKDIR "/src/CCAppTokenApi"
 RUN dotnet build "CCAppTokenApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
