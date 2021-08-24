@@ -9,6 +9,8 @@ namespace CCAppTokenApi
 {
     public class Startup
     {
+        readonly string DefaultCorsPolicy = "_defaultCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -19,12 +21,12 @@ namespace CCAppTokenApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-                                                          {
-                                                              builder.AllowAnyOrigin()
-                                                                     .AllowAnyMethod()
-                                                                     .AllowAnyHeader();
-                                                          }));
+            services.AddCors(o => o.AddPolicy(DefaultCorsPolicy, builder =>
+                                                                 {
+                                                                     builder.AllowAnyOrigin()
+                                                                            .AllowAnyMethod()
+                                                                            .AllowAnyHeader();
+                                                                 }));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -43,6 +45,8 @@ namespace CCAppTokenApi
             }
 
             app.UseRouting();
+
+            app.UseCors(DefaultCorsPolicy);
 
             app.UseAuthorization();
 
